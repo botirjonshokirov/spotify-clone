@@ -11,11 +11,15 @@ import useAuthModal from "@/hooks/useAuthModal";
 
 interface LikeButtonProps {
   songId: string;
-}
+};
 
-const LikeButton: React.FC<LikeButtonProps> = ({ songId }) => {
+const LikeButton: React.FC<LikeButtonProps> = ({
+  songId
+}) => {
   const router = useRouter();
-  const { supabaseClient } = useSessionContext();
+  const {
+    supabaseClient
+  } = useSessionContext();
   const authModal = useAuthModal();
   const { user } = useUser();
 
@@ -25,19 +29,19 @@ const LikeButton: React.FC<LikeButtonProps> = ({ songId }) => {
     if (!user?.id) {
       return;
     }
-
+  
     const fetchData = async () => {
       const { data, error } = await supabaseClient
-        .from("liked_songs")
-        .select("*")
-        .eq("user_id", user.id)
-        .eq("song_id", songId)
+        .from('liked_songs')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('song_id', songId)
         .single();
 
       if (!error && data) {
         setIsLiked(true);
       }
-    };
+    }
 
     fetchData();
   }, [songId, supabaseClient, user?.id]);
@@ -51,10 +55,10 @@ const LikeButton: React.FC<LikeButtonProps> = ({ songId }) => {
 
     if (isLiked) {
       const { error } = await supabaseClient
-        .from("liked_songs")
+        .from('liked_songs')
         .delete()
-        .eq("user_id", user.id)
-        .eq("song_id", songId);
+        .eq('user_id', user.id)
+        .eq('song_id', songId)
 
       if (error) {
         toast.error(error.message);
@@ -62,24 +66,26 @@ const LikeButton: React.FC<LikeButtonProps> = ({ songId }) => {
         setIsLiked(false);
       }
     } else {
-      const { error } = await supabaseClient.from("liked_songs").insert({
-        song_id: songId,
-        user_id: user.id,
-      });
+      const { error } = await supabaseClient
+        .from('liked_songs')
+        .insert({
+          song_id: songId,
+          user_id: user.id
+        });
 
       if (error) {
         toast.error(error.message);
       } else {
         setIsLiked(true);
-        toast.success("Success");
+        toast.success('Success');
       }
     }
 
     router.refresh();
-  };
+  }
 
   return (
-    <button
+    <button 
       className="
         cursor-pointer 
         hover:opacity-75 
@@ -87,9 +93,9 @@ const LikeButton: React.FC<LikeButtonProps> = ({ songId }) => {
       "
       onClick={handleLike}
     >
-      <Icon color={isLiked ? "#22c55e" : "white"} size={25} />
+      <Icon color={isLiked ? '#22c55e' : 'white'} size={25} />
     </button>
   );
-};
+}
 
 export default LikeButton;
