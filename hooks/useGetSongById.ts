@@ -18,30 +18,27 @@ const useSongById = (id?: string) => {
 
     const fetchSong = async () => {
       const { data, error } = await supabaseClient
-        .from("songs")
-        .select("*")
-        .eq("id", id)
+        .from('songs')
+        .select('*')
+        .eq('id', id)
         .single();
 
       if (error) {
         setIsLoading(false);
         return toast.error(error.message);
       }
-
+      
       setSong(data as Song);
       setIsLoading(false);
-    };
+    }
 
     fetchSong();
   }, [id, supabaseClient]);
 
-  return useMemo(
-    () => ({
-      isLoading,
-      song,
-    }),
-    [isLoading, song]
-  );
+  return useMemo(() => ({
+    isLoading,
+    song
+  }), [isLoading, song]);
 };
 
 export default useSongById;

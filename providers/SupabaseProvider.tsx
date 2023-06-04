@@ -8,18 +8,20 @@ import { Database } from "@/types_db";
 
 interface SupabaseProviderProps {
   children: React.ReactNode;
-}
+};
 
-const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) => {
-  const [supabaseClient] = useState(() =>
+const SupabaseProvider: React.FC<SupabaseProviderProps> = ({
+  children
+}) => {
+    const [supabaseClient] = useState(() =>
     createClientComponentClient<Database>()
   );
 
-  return (
+  return ( 
     <SessionContextProvider supabaseClient={supabaseClient}>
       {children}
     </SessionContextProvider>
   );
-};
-
+}
+ 
 export default SupabaseProvider;

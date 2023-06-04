@@ -17,7 +17,7 @@ const AccountContent = () => {
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.replace("/");
+      router.replace('/');
     }
   }, [isLoading, user, router]);
 
@@ -25,7 +25,7 @@ const AccountContent = () => {
     setLoading(true);
     try {
       const { url, error } = await postData({
-        url: "/api/create-portal-link",
+        url: '/api/create-portal-link'
       });
       window.location.assign(url);
     } catch (error) {
@@ -34,21 +34,23 @@ const AccountContent = () => {
     setLoading(false);
   };
 
-  return (
+  return ( 
     <div className="mb-7 px-6">
       {!subscription && (
         <div className="flex flex-col gap-y-4">
-          <p>No active plan.</p>
-          <Button onClick={subscribeModal.onOpen} className="w-[300px]">
-            Subscribe
-          </Button>
-        </div>
+        <p>No active plan.</p>
+        <Button 
+          onClick={subscribeModal.onOpen}
+          className="w-[300px]"
+        >
+          Subscribe
+        </Button>
+      </div>
       )}
       {subscription && (
         <div className="flex flex-col gap-y-4">
-          <p>
-            You are currently on the
-            <b> {subscription?.prices?.products?.name} </b>
+          <p>You are currently on the 
+            <b> {subscription?.prices?.products?.name} </b> 
             plan.
           </p>
           <Button
@@ -62,6 +64,6 @@ const AccountContent = () => {
       )}
     </div>
   );
-};
-
+}
+ 
 export default AccountContent;
